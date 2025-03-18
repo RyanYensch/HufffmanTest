@@ -115,20 +115,28 @@ def encode(path):
 
 def decode(path):
     command = ["./decode", f"{path}tree.tree", f"{path}encoded.enc", f"{path}decoded.txt"]
+    
+    start_usage = resource.getrusage(resource.RUSAGE_CHILDREN)
     try:
-        subprocess.run(command)
-        return True
+        subprocess.run(command, check=True)
     except:
-        return False
+        return False, None
+
+    end_usage = resource.getrusage(resource.RUSAGE_CHILDREN)
+    user_time = end_usage.ru_utime - start_usage.ru_utime
+    system_time = end_usage.ru_stime - start_usage.ru_stime
+    return True, user_time + system_time
 
 def test(path):
     treeState, minimal, actual = makeTree(path)
     if (not treeState):
         return False, 0, minimal, actual
 
-    encodeState, time = encode(path)
+    encodeState, time1 = encode(path)
+    decodeState, time2 = decode(path)
+    time = max(time1, time2)
     
-    if (not encodeState or not decode(path)):
+    if (not encodeState or not decodeState):
         return False, time, minimal, actual
     
     if (time > 5):
