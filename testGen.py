@@ -185,7 +185,7 @@ def runTests(testCount, minsize = 0, maxsize = 1000000, unicode = "Y"):
                 print(f"Error removing {file_path}: {e}")
         else:
             print(f"{bcolors.FAIL}Failed.{bcolors.ENDC}", end="") 
-            print(f" Time (User + System): {'{:.2}'.format(time)}" if time > 5 else "", end="")
+            print(f" Time (User + System): {'{:.2}'.format(time)} seconds." if time > 5 else "", end="")
             print(f" Tree Encoding Length Incorrect, Minimal: {minimal}, Your Tree: {actual}" if minimal != actual else "", end="")
             print("")
     
