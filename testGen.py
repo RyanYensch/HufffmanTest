@@ -175,7 +175,7 @@ def runTests(testCount, minsize = 0, maxsize = 1000000, unicode = "Y"):
         result, time, minimal, actual = test(f"{sub_path}/")
         if (result == True): 
             print(f"{bcolors.OKGREEN}Passed.{bcolors.ENDC}", end = "")
-            print(f" Time (User + System): {'{:.2}'.format(time)}")
+            print(f" Time (User + System): {'{:.2}'.format(time)} seconds.")
             correct += 1
             try: 
                 for file_path in sub_path.iterdir():
