@@ -175,7 +175,7 @@ def runTests(testCount, minsize = 0, maxsize = 1000000, unicode = "Y"):
         result, time, minimal, actual = test(f"{sub_path}/")
         if (result == True): 
             print(f"{bcolors.OKGREEN}Passed.{bcolors.ENDC}", end = "")
-            print(f" Time (User + System): {'{:.2}'.format(time)} seconds.")
+            print(f" {bcolors.OKGREEN}Time (User + System): {'{:.2}'.format(time)} seconds.{bcolors.ENDC}")
             correct += 1
             try: 
                 for file_path in sub_path.iterdir():
@@ -185,8 +185,8 @@ def runTests(testCount, minsize = 0, maxsize = 1000000, unicode = "Y"):
                 print(f"Error removing {file_path}: {e}")
         else:
             print(f"{bcolors.FAIL}Failed.{bcolors.ENDC}", end="") 
-            print(f" Time (User + System): {'{:.2}'.format(time)} seconds." if time > 5 else "", end="")
-            print(f" Tree Encoding Length Incorrect, Minimal: {minimal}, Your Tree: {actual}" if minimal != actual else "", end="")
+            print(f" {bcolors.FAIL}Time (User + System): {'{:.2}'.format(time)} seconds.{bcolors.ENDC}" if time > 5 else "", end="")
+            print(f" {bcolors.FAIL}Tree Encoding Length Incorrect, Minimal: {minimal}, Your Tree: {actual}{bcolors.ENDC}" if minimal != actual else "", end="")
             print("")
     
     return correct
