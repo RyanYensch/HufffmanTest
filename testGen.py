@@ -38,7 +38,12 @@ def makeFile(filename, minsize, maxsize, unicode):
         pool = ''.join(chr(i) for i in range(sys.maxunicode + 1) if chr(i).isprintable()) + " \n\t"
     else:
         pool = string.ascii_letters + string.digits + string.punctuation + " \n\t"
-    text = ''.join(random.choices(pool, k=size))
+    text = ''
+    while (size > 0):
+        n = random.randint(1, 1 if size < 10 else random.randint(1, 10))
+        size -= n
+        text += random.choice(pool) * n
+        
     
     
     with open(filename, 'w', encoding='utf-8') as f:
@@ -57,14 +62,14 @@ def check_tree_encoding_length(input_file, tree_file):
         
     except subprocess.CalledProcessError as e:
         print("Error running reference program for minimal encoding length:", e)
-        return False
+        return False, 0, 0
     
     output_minimal = result_minimal.stdout.strip()
     try:
         minimal_length = int(output_minimal.split(":")[-1].strip())
     except Exception as e:
         print("Error parsing minimal encoding length:", e)
-        return False
+        return False, 0, 0
 
     try:
         result_tree = subprocess.run(
@@ -75,14 +80,14 @@ def check_tree_encoding_length(input_file, tree_file):
         )
     except subprocess.CalledProcessError as e:
         print("Error running reference program for tree encoding length:", e)
-        return False
+        return False, 0, 0
 
     output_tree = result_tree.stdout.strip()
     try:
         tree_length = int(output_tree.split(":")[-1].strip())
     except Exception as e:
         print("Error parsing tree encoding length:", e)
-        return False
+        return False, 0, 0
 
     if minimal_length == tree_length:
         return True, 0, 0
